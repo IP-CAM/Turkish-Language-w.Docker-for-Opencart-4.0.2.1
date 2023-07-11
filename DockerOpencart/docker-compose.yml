@@ -1,0 +1,35 @@
+version: '3.0'
+
+services:
+  opencart4x_tr:
+    restart: always
+    build: .
+    ports:
+      - 9060:80
+    environment:
+      installation_db_hostname: mysql_db
+      installation_db_port: 3306
+      installation_db_database: 'acunstoredb'
+      installation_db_username: 'root'
+      installation_db_password: 'root'
+      installation_username: 'bolubeyi'
+      installation_password: 'koroglu'
+      installation_email: 'shamancoders@gmail.com'
+  
+  mysql_db:
+    image: mysql:latest
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${installation_db_password}
+      MYSQL_DATABASE: ${installation_db_database}
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    restart: always
+    ports:
+      - 9061:80
+    environment:
+      - PMA_ARBITRARY=1
+  
+    
